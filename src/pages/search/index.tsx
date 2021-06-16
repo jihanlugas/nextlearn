@@ -118,6 +118,11 @@ const Search = () => {
                             className={"w-full border-2 rounded h-10 px-2 bg-gray-50"}
                             placeholder={"Search ..."}
                         />
+                        <div className={"text-sm mt-1 mb-2 flex flex-row"}>
+                            <div>Example</div>
+                            <div className={"ml-2 text-blue-600 underline"} onClick={() => setSearch("愛")} >Kanji : 愛</div>
+                            <div className={"ml-2 text-blue-600 underline"} onClick={() => setSearch("あい")} >Kana : あい</div>
+                        </div>
                     </div>
                     {!isEmptyObject(kanji) && (
                         <div className={"mb-8"}>
@@ -200,31 +205,30 @@ const Search = () => {
                     )}
                     {!isEmptyObject(reading) && (
                         <div className={"mb-8"}>
-                            <div className={"text-2xl font-bold"}>reading</div>
-                            <div className={"text-lg"}>{reading.reading}</div>
+                            <div className={"text-3xl font-kanji mb-4 font-bold"}>{reading.reading}</div>
                             {reading.main_kanji.length > 0 && (
-                                <div>
-                                    <div className={""}>Main Kanji: </div>
-                                    <div className={"flex flex-row"}>
-                                        {reading.main_kanji.map((main, key) => {
-                                            return (
-                                                <div className={"mr-4 px-2 py-1 bg-gray-700 text-gray-200 rounded font-bold"} key={key}>{main}</div>
-                                            )
-                                        })}
+                                <div className={"flex flex-wrap mb-4"}>
+                                    <div className={"flex w-full mb-2"}>
+                                        <div>Main Kanji</div>
                                     </div>
+                                    {reading.main_kanji.map((main, key) => {
+                                        return (
+                                            <div className={"mr-4 mb-2 px-2 py-1 bg-gray-700 text-gray-200 rounded font-bold"} key={key}>{main}</div>
+                                        )
+                                    })}
                                 </div>
 
                             )}
                             {reading.name_kanji.length > 0 && (
-                                <div>
-                                    <div className={""}>Name Kanji: </div>
-                                    <div className={"flex flex-row"}>
-                                        {reading.name_kanji.map((name, key) => {
-                                            return (
-                                                <div className={"mr-4 px-2 py-1 bg-gray-700 text-gray-200 rounded font-bold"} key={key}>{name}</div>
-                                            )
-                                        })}
+                                <div className={"flex flex-wrap mb-4"}>
+                                    <div className={"flex w-full mb-2"}>
+                                        <div>Name Reading</div>
                                     </div>
+                                    {reading.name_kanji.map((name, key) => {
+                                        return (
+                                            <div className={"mr-4 mb-2 px-2 py-1 bg-gray-700 text-gray-200 rounded font-bold"} key={key}>{name}</div>
+                                        )
+                                    })}
                                 </div>
 
                             )}
