@@ -17,10 +17,6 @@ const initAuth = [
         path: "/search",
         name: "Search",
     },
-    {
-        path: "/kanji",
-        name: "Kanji",
-    },
 ]
 
 

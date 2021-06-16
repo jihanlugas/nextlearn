@@ -52,7 +52,7 @@ const Search = () => {
     })
 
     const [search, setSearch] = useState<string>("")
-    const debounceSearch = useDebounce(search, 1000)
+    const debounceSearch = useDebounce(search, 500)
 
     const [kanji, setKanji] = useState<Ikanji>({})
     const [reading, setReading] = useState<Ireading>({})
