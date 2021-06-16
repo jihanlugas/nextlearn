@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, Fragment } from "react"
 import Main from "../../components/Layout/Main"
 import Head from "next/head"
 import { useMutation, useQuery } from "react-query";
@@ -57,6 +57,7 @@ const Search = () => {
     const [kanji, setKanji] = useState<Ikanji>({})
     const [reading, setReading] = useState<Ireading>({})
     const [words, setWords] = useState<Iwords>([])
+    const [limitWords, setLimitWords] = useState<number>(10)
 
 
     const { data: dataKanji, mutate: mutateKanji } = useMutation((val: string) => Api.get(`/kanji/${val}`))
@@ -88,6 +89,7 @@ const Search = () => {
     }, [dataWords])
 
     useEffect(() => {
+        setLimitWords(10)
         if (search === "") {
             setKanji({})
             setReading({})
@@ -238,41 +240,53 @@ const Search = () => {
                         <div className={"mb-8"}>
                             <div className={"text-2xl font-bold"}>Words</div>
                             {words.map((word, key) => {
-                                return (
-                                    <div key={key} className={"mb-2 bg-gray-100 p-2 rounded"}>
-                                        {word.variants.length > 0 && (
-                                            <div className={"mb-2"}>
-                                                {word.variants.map((variant, key) => {
-                                                    return (
-                                                        <div key={key} className={"bg-gray-700 text-gray-200 p-2 rounded-lg mb-2"}>
-                                                            <div className={"text-sm"}>{variant.pronounced}</div>
-                                                            <div className={"text-2xl"}>{variant.written}</div>
-                                                        </div>
-                                                    )
-                                                })}
+                                if (key < limitWords) {
+                                    return (
+                                        <div className={"mb-2 bg-gray-100 p-2 rounded"} key={key}>
+                                            {word.variants.length > 0 && (
+                                                <div className={"mb-2"}>
+                                                    {word.variants.map((variant, key) => {
+                                                        return (
+                                                            <div key={key} className={"bg-gray-700 text-gray-200 p-2 rounded-lg mb-2"}>
+                                                                <div className={"text-sm"}>{variant.pronounced}</div>
+                                                                <div className={"text-2xl"}>{variant.written}</div>
+                                                            </div>
+                                                        )
+                                                    })}
+                                                </div>
+                                            )}
+                                            {word.meanings.length > 0 && (
+                                                <div className={"mb-2"}>
+                                                    {word.meanings.map((meaning, key) => {
+                                                        return (
+                                                            <div key={key}>
+                                                                {meaning.glosses.length > 0 && (
+                                                                    <div className={"mb-1"}>
+                                                                        {meaning.glosses.map((gloss, key) => {
+                                                                            return (
+                                                                                <div key={key}>{(key + 1) + ". " + gloss}</div>
+                                                                            )
+                                                                        })}
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        )
+                                                    })}
+                                                </div>
+                                            )}
+                                        </div>
+                                    )
+                                } else if (key === limitWords) {
+                                    return (
+                                        <div key={key} className={"flex justify-center items-center"}>
+                                            <div className={"shadow px-4 py-2 rounded-full bg-gray-300"} onClick={() => setLimitWords(limitWords + 10)}>
+                                                Load More
                                             </div>
-                                        )}
-                                        {word.meanings.length > 0 && (
-                                            <div className={"mb-2"}>
-                                                {word.meanings.map((meaning, key) => {
-                                                    return (
-                                                        <div key={key}>
-                                                            {meaning.glosses.length > 0 && (
-                                                                <div className={"mb-1"}>
-                                                                    {meaning.glosses.map((gloss, key) => {
-                                                                        return (
-                                                                            <div key={key}>{(key + 1) + ". " + gloss}</div>
-                                                                        )
-                                                                    })}
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    )
-                                                })}
-                                            </div>
-                                        )}
-                                    </div>
-                                )
+                                        </div>
+                                    )
+                                } else {
+                                    return null
+                                }
                             })}
                         </div>
                     )}
