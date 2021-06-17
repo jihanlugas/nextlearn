@@ -8,7 +8,6 @@ interface Props {
 
 }
 
-
 const Index: NextPage<Props> = ({ }) => {
 	return (
 		<Main>

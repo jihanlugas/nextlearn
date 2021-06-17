@@ -1,10 +1,11 @@
-import { useState, useEffect, Fragment } from "react"
+import { useState, useEffect, useContext } from "react"
 import Main from "../../components/Layout/Main"
 import Head from "next/head"
 import { useMutation, useQuery } from "react-query";
 import { Api } from "../../lib/Api";
 import { useDebounce } from "../../utils/Hooks"
 import { isEmptyObject } from "../../utils/Validate"
+import AppContext from "../../stores/appContext"
 
 
 
@@ -45,6 +46,8 @@ const initFormikValue = {
 }
 
 const Search = () => {
+    const { notif } = useContext(AppContext)
+
     const [data, setData] = useState<Idata>({
         kanji: {},
         reading: {},
@@ -58,7 +61,6 @@ const Search = () => {
     const [reading, setReading] = useState<Ireading>({})
     const [words, setWords] = useState<Iwords>([])
     const [limitWords, setLimitWords] = useState<number>(10)
-
 
     const { data: dataKanji, mutate: mutateKanji } = useMutation((val: string) => Api.get(`/kanji/${val}`))
     const { data: dataReading, mutate: mutateReading } = useMutation((val: string) => Api.get(`/reading/${val}`))
@@ -101,7 +103,6 @@ const Search = () => {
         }
     }, [debounceSearch])
 
-
     return (
         <Main>
             <Head>
@@ -109,7 +110,7 @@ const Search = () => {
             </Head>
             <div className={"p-4 font-sans"}>
                 <div className={"mb-4"}>
-                    <div className={"text-2xl"}>Search Kanji</div>
+                    <div className={"text-2xl"} onClick={() => notif.success("Tes")} >Search Kanji</div>
                 </div>
                 <div className={""}>
                     <div className={"flex flex-col w-full mb-8"}>
@@ -292,7 +293,7 @@ const Search = () => {
                     )}
                 </div>
             </div>
-        </Main >
+        </Main>
     )
 }
 

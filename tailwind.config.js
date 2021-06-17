@@ -5,6 +5,7 @@ module.exports = {
     extend: {},
     fontFamily: {
       kanji: ['"Noto Serif JP"', 'serif'],
+      serif: ['Ubuntu', 'sans-serif'],
     }
   },
   variants: {

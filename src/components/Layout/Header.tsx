@@ -18,9 +18,8 @@ const Header: NextPage<Props> = ({ onClickOverlay }) => {
                         <div className={"flex justify-center items-center w-12 h-12"} onClick={() => onClickOverlay()}>
                             <GoThreeBars size={"2em"} />
                         </div>
-                        <div className={"ml-2"}>Next App</div>
+                        <span className={"ml-2 text-3xl"}>Next App</span>
                     </div>
-
                 </div>
             </nav>
         </div>

@@ -4,6 +4,7 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { QueryClient, QueryClientProvider } from "react-query"
 import { ReactQueryDevtools } from "react-query/devtools"
+import { AppContextProvider } from "../stores/appContext"
 
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -19,10 +20,12 @@ function MyApp({ Component, pageProps }: AppProps) {
                 />
                 <title>Learn</title>
             </Head>
-            <QueryClientProvider client={queryClient}>
-                <Component {...pageProps} />
-                {/* <ReactQueryDevtools /> */}
-            </QueryClientProvider>
+            <AppContextProvider>
+                <QueryClientProvider client={queryClient}>
+                    <Component {...pageProps} />
+                    <ReactQueryDevtools />
+                </QueryClientProvider>
+            </AppContextProvider>
         </React.Fragment>
     )
 }
