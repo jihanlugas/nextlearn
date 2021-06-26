@@ -48,12 +48,6 @@ const initFormikValue = {
 const Search = () => {
     const { notif } = useContext(AppContext)
 
-    const [data, setData] = useState<Idata>({
-        kanji: {},
-        reading: {},
-        words: [],
-    })
-
     const [search, setSearch] = useState<string>("")
     const debounceSearch = useDebounce(search, 500)
 
@@ -62,9 +56,9 @@ const Search = () => {
     const [words, setWords] = useState<Iwords>([])
     const [limitWords, setLimitWords] = useState<number>(10)
 
-    const { data: dataKanji, mutate: mutateKanji } = useMutation((val: string) => Api.get(`/kanji/${val}`))
-    const { data: dataReading, mutate: mutateReading } = useMutation((val: string) => Api.get(`/reading/${val}`))
-    const { data: dataWords, mutate: mutateWords } = useMutation((val: string) => Api.get(`/words/${val}`))
+    const { data: dataKanji, mutate: mutateKanji } = useMutation((val: string) => Api.get(`/kanjiapi/kanji/${val}`))
+    const { data: dataReading, mutate: mutateReading } = useMutation((val: string) => Api.get(`/kanjiapi/reading/${val}`))
+    const { data: dataWords, mutate: mutateWords } = useMutation((val: string) => Api.get(`/kanjiapi/words/${val}`))
 
     useEffect(() => {
         if (dataKanji && !dataKanji.error) {
@@ -92,14 +86,14 @@ const Search = () => {
 
     useEffect(() => {
         setLimitWords(10)
-        if (search === "") {
+        if (debounceSearch === "") {
             setKanji({})
             setReading({})
             setWords([])
         } else {
-            mutateKanji(search)
-            mutateReading(search)
-            mutateWords(search)
+            mutateKanji(debounceSearch)
+            mutateReading(debounceSearch)
+            mutateWords(debounceSearch)
         }
     }, [debounceSearch])
 
@@ -168,7 +162,7 @@ const Search = () => {
                                     {kanji.on_readings.map((on, key) => {
                                         const onread = on.split(".")
                                         return (
-                                            <div className={"mr-4 mb-2 px-2 py-1 bg-green-400 rounded flex"} key={key}>
+                                            <div className={"mr-4 mb-2 px-2 py-1 bg-green-400 rounded flex"} key={key} onClick={() => setSearch(onread[0])}>
                                                 <div className={"text-gray-100"}>{onread[0]}</div>
                                                 <div className={"text-gray-300"}>{onread[1]}</div>
                                             </div>
@@ -184,7 +178,7 @@ const Search = () => {
                                     {kanji.kun_readings.map((kun, key) => {
                                         const kunread = kun.split(".")
                                         return (
-                                            <div className={"mr-4 mb-2 px-2 py-1 bg-blue-400 rounded flex"} key={key}>
+                                            <div className={"mr-4 mb-2 px-2 py-1 bg-blue-400 rounded flex"} key={key} onClick={() => setSearch(kunread[0])} >
                                                 <div className={"text-gray-100"}>{kunread[0]}</div>
                                                 <div className={"text-gray-300"}>{kunread[1]}</div>
                                             </div>
@@ -216,7 +210,7 @@ const Search = () => {
                                     </div>
                                     {reading.main_kanji.map((main, key) => {
                                         return (
-                                            <div className={"mr-4 mb-2 px-2 py-1 bg-gray-700 text-gray-200 rounded font-bold"} key={key}>{main}</div>
+                                            <div className={"mr-4 mb-2 px-2 py-1 bg-gray-700 text-gray-200 rounded font-bold"} key={key} onClick={() => setSearch(main)} >{main}</div>
                                         )
                                     })}
                                 </div>
@@ -229,7 +223,7 @@ const Search = () => {
                                     </div>
                                     {reading.name_kanji.map((name, key) => {
                                         return (
-                                            <div className={"mr-4 mb-2 px-2 py-1 bg-gray-700 text-gray-200 rounded font-bold"} key={key}>{name}</div>
+                                            <div className={"mr-4 mb-2 px-2 py-1 bg-gray-700 text-gray-200 rounded font-bold"} key={key} onClick={() => setSearch(name)} >{name}</div>
                                         )
                                     })}
                                 </div>

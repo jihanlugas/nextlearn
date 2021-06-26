@@ -74,7 +74,7 @@ export const AppContextProvider: NextPage<Props> = ({ children }) => {
 
     return (
         <AppContext.Provider value={context}>
-            <div className={`fixed w-full transition duration-1000 transform -mt-20 top-0 z-50 ${showNotif.show && ' translate-y-32'}`}>
+            <div className={`fixed w-full transition duration-500 ease-in-out transform -mt-20 top-0 z-50 ${showNotif.show && ' translate-y-32'}`}>
                 <div className={"px-4 w-full flex justify-center"}>
                     <div className={`flex flex-col w-full max-w-2xl py-2 px-4 rounded-lg text-gray-100 ${showNotif.className}`}>
                         <div className={"font-bold"}>{showNotif.title}</div>

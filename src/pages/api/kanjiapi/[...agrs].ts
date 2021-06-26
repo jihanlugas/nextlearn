@@ -1,7 +1,6 @@
 import { createProxyMiddleware } from "http-proxy-middleware";
 
-export default createProxyMiddleware('/api', {
-    // target: "http://localhost:8010",
+export default createProxyMiddleware('/api/kanjiapi', {
     target: "https://kanjiapi.dev/v1",
     changeOrigin: true,
     headers: {
@@ -9,7 +8,7 @@ export default createProxyMiddleware('/api', {
         "Content-Type": "application/json",
     },
     pathRewrite: {
-        '^/api': ''
+        '^/api/kanjiapi': ''
     },
 });
 
